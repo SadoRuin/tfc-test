@@ -3,7 +3,7 @@
 ################################################################################
 
 module "tf_test_vpc" {
-  source = "github.com/sadoruin/terraform-ncloud-vpc.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-vpc.git"
 
   name            = "tf-test-vpc"
   ipv4_cidr_block = "10.0.0.0/16"
@@ -151,7 +151,7 @@ module "tf_test_vpc" {
 
 
 module "tf_test_web_svr" {
-  source = "github.com/sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
 
   count = 0
 
@@ -178,7 +178,7 @@ module "tf_test_web_svr" {
 }
 
 module "tf_test_was_svr" {
-  source = "github.com/sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
 
   count = 0
 
@@ -201,7 +201,7 @@ module "tf_test_was_svr" {
 }
 
 module "tf_test_db_svr" {
-  source = "github.com/sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
 
   count = 0
 
@@ -265,7 +265,7 @@ module "tf_test_db_svr" {
 ################################################################################
 /*
 module "web_alb" {
-  source = "github.com/sadoruin/terraform-ncloud-load-balancer.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-load-balancer.git"
 
   name            = "tf-test-web-alb"
   network_type    = "PUBLIC"
@@ -284,7 +284,7 @@ module "web_alb" {
 }
 
 module "was_nlb" {
-  source = "github.com/sadoruin/terraform-ncloud-load-balancer.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-load-balancer.git"
 
   name            = "tf-test-was-nlb"
   network_type    = "PRIVATE"
@@ -308,7 +308,7 @@ module "was_nlb" {
 ################################################################################
 
 module "target_groups" {
-  source = "github.com/sadoruin/terraform-ncloud-target-group.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-target-group.git"
 
   target_groups = [
     {
@@ -354,7 +354,7 @@ module "target_groups" {
 ################################################################################
 /*
 module "lc" {
-  source = "github.com/sadoruin/terraform-ncloud-launch-configuration.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-launch-configuration.git"
 
   name                     = "tf-test-lc"
   server_image_name        = "Rocky Linux 8.8"
@@ -373,7 +373,7 @@ module "lc" {
 ################################################################################
 
 module "asg" {
-  source = "github.com/sadoruin/terraform-ncloud-auto-scaling-group.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-auto-scaling-group.git"
 
   launch_configuration_no = module.lc.launch_configuration.id
 
@@ -406,7 +406,7 @@ module "asg" {
 ################################################################################
 /*
 module "nas_volumes" {
-  source = "github.com/sadoruin/terraform-ncloud-nas.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-nas.git"
 
   nas_volumes = [
     {
@@ -428,7 +428,7 @@ module "nas_volumes" {
 ################################################################################
 /*
 module "nks" {
-  source = "github.com/sadoruin/terraform-ncloud-nks.git"
+  source = "git@github.com:sadoruin/terraform-ncloud-nks.git"
 
   name              = "test-cluster"
   k8s_version       = "1.24.10"
