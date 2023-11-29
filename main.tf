@@ -1,12 +1,22 @@
+# Configure the ncloud provider
+provider "ncloud" {
+  access_key  = var.access_key
+  secret_key  = var.secret_key
+  region      = var.region
+  site        = var.site
+  support_vpc = var.support_vpc
+}
+
+
 ################################################################################
 # VPC
 ################################################################################
 
 module "tf_test_vpc" {
-  source = "git@github.com:sadoruin/terraform-ncloud-vpc.git"
+  source = "git@github.com:claion-org/terraform-ncloud-vpc.git"
 
-  name            = "tf-test-vpc"
-  ipv4_cidr_block = "10.0.0.0/16"
+  name            = "test-vpc"
+  ipv4_cidr_block = "10.1.0.0/16"
 
 
   ##############################################################################
@@ -14,45 +24,45 @@ module "tf_test_vpc" {
   ##############################################################################
   subnets = [
     {
-      subnet      = "10.0.0.0/24"
+      subnet      = "10.1.0.0/24"
       zone        = "KR-1"
       subnet_type = "PUBLIC"
-      name        = "tf-test-web-sbn"
+      name        = "test-sbn"
       usage_type  = "GEN"
       network_acl = "default"
     },
-    {
-      subnet      = "10.0.1.0/24"
-      zone        = "KR-1"
-      subnet_type = "PRIVATE"
-      name        = "tf-test-was-sbn"
-      usage_type  = "GEN"
-      network_acl = "default"
-    },
-    {
-      subnet      = "10.0.2.0/24"
-      zone        = "KR-1"
-      subnet_type = "PRIVATE"
-      name        = "tf-test-db-sbn"
-      usage_type  = "GEN"
-      network_acl = "default"
-    },
-    {
-      subnet      = "10.0.3.0/24"
-      zone        = "KR-1"
-      subnet_type = "PRIVATE"
-      name        = "tf-test-alb-sbn"
-      usage_type  = "LOADB"
-      network_acl = "default"
-    },
-    {
-      subnet      = "10.0.4.0/24"
-      zone        = "KR-1"
-      subnet_type = "PRIVATE"
-      name        = "tf-test-nlb-sbn"
-      usage_type  = "LOADB"
-      network_acl = "default"
-    }
+    # {
+    #   subnet      = "10.0.1.0/24"
+    #   zone        = "KR-1"
+    #   subnet_type = "PRIVATE"
+    #   name        = "tf-test-was-sbn"
+    #   usage_type  = "GEN"
+    #   network_acl = "default"
+    # },
+    # {
+    #   subnet      = "10.0.2.0/24"
+    #   zone        = "KR-1"
+    #   subnet_type = "PRIVATE"
+    #   name        = "tf-test-db-sbn"
+    #   usage_type  = "GEN"
+    #   network_acl = "default"
+    # },
+    # {
+    #   subnet      = "10.0.3.0/24"
+    #   zone        = "KR-1"
+    #   subnet_type = "PRIVATE"
+    #   name        = "tf-test-alb-sbn"
+    #   usage_type  = "LOADB"
+    #   network_acl = "default"
+    # },
+    # {
+    #   subnet      = "10.0.4.0/24"
+    #   zone        = "KR-1"
+    #   subnet_type = "PRIVATE"
+    #   name        = "tf-test-nlb-sbn"
+    #   usage_type  = "LOADB"
+    #   network_acl = "default"
+    # }
   ]
 
   network_acls = [
@@ -67,66 +77,66 @@ module "tf_test_vpc" {
   ##############################################################################
   # ACG
   ##############################################################################
-  acgs = [
-    {
-      name        = "tf-test-web-svr-acg"
-      description = "WEB Server ACG"
-      inbound_rules = [
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "22"
-          description = "SSH 접속 허용"
-        },
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "80"
-          description = "HTTP 통신 허용"
-        },
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "443"
-          description = "HTTPS 통신 허용"
-        }
-      ]
-      outbound_rules = [
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "1-65535"
-          description = "모든 포트 허용"
-        }
-      ]
-    },
-    {
-      name        = "tf-test-was-svr-acg"
-      description = "WAS Server ACG"
-      inbound_rules = [
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "8080"
-          description = "Tomcat 포트 허용"
-        }
-      ]
-      outbound_rules = []
-    },
-    {
-      name        = "tf-test-db-svr-acg"
-      description = "DB Server ACG"
-      inbound_rules = [
-        {
-          protocol    = "TCP"
-          ip_block    = "0.0.0.0/0"
-          port_range  = "3306"
-          description = "MySQL 포트 허용"
-        }
-      ]
-      outbound_rules = []
-    }
-  ]
+  #   acgs = [
+  #     {
+  #       name        = "tf-test-web-svr-acg"
+  #       description = "WEB Server ACG"
+  #       inbound_rules = [
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "22"
+  #           description = "SSH 접속 허용"
+  #         },
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "80"
+  #           description = "HTTP 통신 허용"
+  #         },
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "443"
+  #           description = "HTTPS 통신 허용"
+  #         }
+  #       ]
+  #       outbound_rules = [
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "1-65535"
+  #           description = "모든 포트 허용"
+  #         }
+  #       ]
+  #     },
+  #     {
+  #       name        = "tf-test-was-svr-acg"
+  #       description = "WAS Server ACG"
+  #       inbound_rules = [
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "8080"
+  #           description = "Tomcat 포트 허용"
+  #         }
+  #       ]
+  #       outbound_rules = []
+  #     },
+  #     {
+  #       name        = "tf-test-db-svr-acg"
+  #       description = "DB Server ACG"
+  #       inbound_rules = [
+  #         {
+  #           protocol    = "TCP"
+  #           ip_block    = "0.0.0.0/0"
+  #           port_range  = "3306"
+  #           description = "MySQL 포트 허용"
+  #         }
+  #       ]
+  #       outbound_rules = []
+  #     }
+  #   ]
 }
 
 
@@ -151,7 +161,7 @@ module "tf_test_vpc" {
 
 
 module "tf_test_web_svr" {
-  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:claion-org/terraform-ncloud-server.git"
 
   count = 0
 
@@ -178,7 +188,7 @@ module "tf_test_web_svr" {
 }
 
 module "tf_test_was_svr" {
-  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:claion-org/terraform-ncloud-server.git"
 
   count = 0
 
@@ -201,7 +211,7 @@ module "tf_test_was_svr" {
 }
 
 module "tf_test_db_svr" {
-  source = "git@github.com:sadoruin/terraform-ncloud-server.git"
+  source = "git@github.com:claion-org/terraform-ncloud-server.git"
 
   count = 0
 
@@ -265,7 +275,7 @@ module "tf_test_db_svr" {
 ################################################################################
 /*
 module "web_alb" {
-  source = "git@github.com:sadoruin/terraform-ncloud-load-balancer.git"
+  source = "git@github.com:claion-org/terraform-ncloud-load-balancer.git"
 
   name            = "tf-test-web-alb"
   network_type    = "PUBLIC"
@@ -284,7 +294,7 @@ module "web_alb" {
 }
 
 module "was_nlb" {
-  source = "git@github.com:sadoruin/terraform-ncloud-load-balancer.git"
+  source = "git@github.com:claion-org/terraform-ncloud-load-balancer.git"
 
   name            = "tf-test-was-nlb"
   network_type    = "PRIVATE"
@@ -308,7 +318,7 @@ module "was_nlb" {
 ################################################################################
 
 module "target_groups" {
-  source = "git@github.com:sadoruin/terraform-ncloud-target-group.git"
+  source = "git@github.com:claion-org/terraform-ncloud-target-group.git"
 
   target_groups = [
     {
@@ -354,7 +364,7 @@ module "target_groups" {
 ################################################################################
 /*
 module "lc" {
-  source = "git@github.com:sadoruin/terraform-ncloud-launch-configuration.git"
+  source = "git@github.com:claion-org/terraform-ncloud-launch-configuration.git"
 
   name                     = "tf-test-lc"
   server_image_name        = "Rocky Linux 8.8"
@@ -373,7 +383,7 @@ module "lc" {
 ################################################################################
 
 module "asg" {
-  source = "git@github.com:sadoruin/terraform-ncloud-auto-scaling-group.git"
+  source = "git@github.com:claion-org/terraform-ncloud-auto-scaling-group.git"
 
   launch_configuration_no = module.lc.launch_configuration.id
 
@@ -406,7 +416,7 @@ module "asg" {
 ################################################################################
 /*
 module "nas_volumes" {
-  source = "git@github.com:sadoruin/terraform-ncloud-nas.git"
+  source = "git@github.com:claion-org/terraform-ncloud-nas.git"
 
   nas_volumes = [
     {
@@ -428,7 +438,7 @@ module "nas_volumes" {
 ################################################################################
 /*
 module "nks" {
-  source = "git@github.com:sadoruin/terraform-ncloud-nks.git"
+  source = "git@github.com:claion-org/terraform-ncloud-nks.git"
 
   name              = "test-cluster"
   k8s_version       = "1.24.10"
